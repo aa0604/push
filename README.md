@@ -33,7 +33,7 @@ $config = [
 'components'=> [
         'push' => [
             'class' => 'xing\push\Yii',
-            'drive' => 'Umeng', // 使用哪个推送驱动名称
+            'driveName' => 'Umeng', // 使用哪个推送驱动名称
             // 驱动里的配置
             'config' => $config
         ],

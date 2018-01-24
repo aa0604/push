@@ -47,6 +47,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
     {
         $class = new self();
 
+        $class->config = $config;
         $class->timestamp = strval(time());
         // 测试模式开启
         isset($config['test']) && $class->test = $config['test'];
@@ -61,20 +62,17 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
      */
     public function setSdk($type = 'android')
     {
-        $this->sdk->setAppMasterSecret($this->appMasterSecret);
         if (!empty($this->sdk)) return $this->sdk;
         $this->platform = $type;
+        $this->sdk = $type == 'android' ? new AndroidNotification() : new IOSNotification();
         $this->sdk->setPredefinedKeyValue("timestamp",        $this->timestamp);
         $this->sdk->setPredefinedKeyValue("production_mode", !empty($this->test));
 
         # 安卓和IOS的区别配置
-        $this->sdk = $type == 'android' ? new AndroidNotification() : new IOSNotification();
         $config = $type == 'android' ? $this->config['android'] : $this->config['IOS'];
         $this->sdk->setAppMasterSecret($config['appMasterSecret']);
         $this->sdk->setPredefinedKeyValue("appkey",           $config['appKey']);
 
-        // 单播设备：设置默认为null
-        $this->sdk->data['device_tokens'] = null;
         return $this->sdk;
     }
 
@@ -88,6 +86,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
             $this->sdk->setPredefinedKeyValue("ticker",           $this->title);
             $this->sdk->setPredefinedKeyValue("title",            $this->title);
             $this->sdk->setPredefinedKeyValue("text",             $this->body);
+            $this->sdk->setPredefinedKeyValue("after_open",       'go_app'); // 后续行为，其他推送没有这个东西，所以不做成为专门动作，统一使用该值
         } else {
             $this->sdk->setPredefinedKeyValue("alert", $this->title);
         }
@@ -114,7 +113,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
     // 安卓 - 广播
     public function sendAllAndroid()
     {
-        $this->setSdk('IOS');
+        $this->setSdk('android');
         $this->sdk->data["type"] = "broadcast";
         $this->send();
     }
@@ -144,6 +143,8 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
     {
         $this->setSdk('android');
         $this->sdk->data["type"] = "unicast";
+        // 单播设备：设置默认为null
+        $this->sdk->data['device_tokens'] = null;
         $this->sdk->setPredefinedKeyValue("device_tokens",    $device);
         $this->send();
     }
@@ -156,6 +157,8 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
     {
         $this->setSdk('IOS');
         $this->sdk->data["type"] = "unicast";
+        // 单播设备：设置默认为null
+        $this->sdk->data['device_tokens'] = null;
         $this->sdk->setPredefinedKeyValue("device_tokens",    $device);
         $this->send();
     }

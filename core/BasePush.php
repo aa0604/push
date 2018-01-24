@@ -53,5 +53,4 @@ class BasePush
         $this->extendedData = $data;
         return $this;
     }
-
 }

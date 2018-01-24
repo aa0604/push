@@ -9,6 +9,7 @@
 namespace xing\push;
 
 
+use xing\push\core\BasePush;
 use xing\push\core\PushFactory;
 use xing\push\core\PushInterface;
 
@@ -16,33 +17,41 @@ use xing\push\core\PushInterface;
  * Class Yii
  * @property \xing\push\drive\UmengService $drive
  * @property array $config
+ * @property string $driveName
  * @package xing\push
  */
-class Yii implements PushInterface
+class Yii extends BasePush implements PushInterface
 {
+    public $driveName;
     public $drive;
     public $config;
 
-    public function __construct()
+    protected function initDrive()
     {
-        $this->drive = PushFactory::getInstance($this->drive)::init($this->config);
+        if (!empty($this->drive)) return $this->drive;
+        $this->drive = PushFactory::getInstance($this->driveName)::init($this->config);
+        $this->drive->title = $this->title;
+        $this->drive->body = $this->body;
+        $this->drive->extendedData= $this->extendedData;
     }
-
 
     // 发送广播
     public function sendAll()
     {
+        $this->initDrive();
         $this->sendAllAndroid();
         $this->sendAllIOS();
     }
     // 安卓 - 广播
     public function sendAllAndroid()
     {
+        $this->initDrive();
         return $this->drive->sendAllAndroid();
     }
     // IOS - 广播
     public function sendAllIOS()
     {
+        $this->initDrive();
         return $this->drive->sendAllIOS();
     }
 
@@ -52,6 +61,7 @@ class Yii implements PushInterface
      */
     public function sendOne(string $device)
     {
+        $this->initDrive();
         return $this->drive->sendOne($device);
     }
 
@@ -61,6 +71,7 @@ class Yii implements PushInterface
      */
     public function sendOneAndroid(string $device)
     {
+        $this->initDrive();
         return $this->drive->sendOneAndroid($device);
     }
 
@@ -70,22 +81,26 @@ class Yii implements PushInterface
      */
     public function sendOneIOS(string $device)
     {
+        $this->initDrive();
         return $this->drive->sendOneIOS($device);
     }
 
     // 发送组播
     public function sendGroup()
     {
+        $this->initDrive();
         return $this->drive->sendGroup();
     }
     // 安卓 - 组播
     public function sendGroupAndroid()
     {
+        $this->initDrive();
         return $this->drive->sendGroupAndroid();
     }
     // IOS - 组播
     public function sendGroupIOS()
     {
+        $this->initDrive();
         return $this->drive->sendGroupIOS();
     }
 }
