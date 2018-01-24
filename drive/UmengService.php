@@ -22,6 +22,7 @@ use xing\push\sdk\uMeng\notification\IOSNotification;
  * @property string $timestamp
  * @property AndroidNotification|IOSNotification $sdk
  * @property string $platform
+ * @property array $config
  * @package xing\push\drive
  */
 class UmengService extends \xing\push\core\BasePush implements PushInterface
@@ -35,6 +36,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
 
     protected $sdk;
     protected $platform;
+    private $config = [];
 
     /**
      * 初始化
@@ -45,8 +47,6 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
     {
         $class = new self();
 
-        $class->appKey = $config['appKey'];
-        $class->appMasterSecret = $config['appMasterSecret'];
         $class->timestamp = strval(time());
         // 测试模式开启
         isset($config['test']) && $class->test = $config['test'];
@@ -64,11 +64,15 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
         $this->sdk->setAppMasterSecret($this->appMasterSecret);
         if (!empty($this->sdk)) return $this->sdk;
         $this->platform = $type;
-        $this->sdk = $type == 'android' ? new AndroidNotification() : new IOSNotification();
-        $this->sdk->setAppMasterSecret($this->appMasterSecret);
-        $this->sdk->setPredefinedKeyValue("appkey",           $this->appKey);
         $this->sdk->setPredefinedKeyValue("timestamp",        $this->timestamp);
         $this->sdk->setPredefinedKeyValue("production_mode", !empty($this->test));
+
+        # 安卓和IOS的区别配置
+        $this->sdk = $type == 'android' ? new AndroidNotification() : new IOSNotification();
+        $config = $type == 'android' ? $this->config['android'] : $this->config['IOS'];
+        $this->sdk->setAppMasterSecret($config['appMasterSecret']);
+        $this->sdk->setPredefinedKeyValue("appkey",           $config['appKey']);
+
         // 单播设备：设置默认为null
         $this->sdk->data['device_tokens'] = null;
         return $this->sdk;

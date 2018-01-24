@@ -15,12 +15,18 @@ composer xing.chen/push dev-master
 # 使用示例
 ```php
 <?php
-$config = [
-    'appKey' => 'appKey',
-    'appMasterSecret' => 'appMasterSecret'
-];
 //  ***  初始化驱动
 
+$config = [
+    'android' => [
+        'appKey' => 'appKey',
+        'appMasterSecret' => 'appMasterSecret'
+    ],
+    'IOS' => [
+        'appKey' => 'appKey',
+        'appMasterSecret' => 'appMasterSecret'  
+    ]
+];
 # YII框架
 // 需要先在设置：
 
@@ -29,10 +35,7 @@ $config = [
             'class' => 'xing\push\Yii',
             'drive' => 'Umeng', // 使用哪个推送驱动名称
             // 驱动里的配置
-            'config' => [
-                'appKey' => 'appKey',
-                'appMasterSecret' => 'appMasterSecret',
-            ]
+            'config' => $config
         ],
 ];
 $push = Yii::$app->push
@@ -41,6 +44,7 @@ $push = Yii::$app->push
         ->setExtendedData(['a' => 1, 'b' => 2]); // 自定义扩展参数;
         
 # 不依赖框架
+
 $push = \xing\push\drive\UmengService::init($config)
         ->setTitle('标题')
         ->setBody('消息正文')
