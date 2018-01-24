@@ -88,7 +88,7 @@ abstract class UmengNotification {
         $curlErrNo = curl_errno($ch);
         $curlErr = curl_error($ch);
         curl_close($ch);
-        print($result . "\r\n");
+//        print($result . "\r\n");
         if ($httpCode == "0") {
           	 // Time out
            	throw new \Exception("Curl error number:" . $curlErrNo . " , Curl error details:" . $curlErr . "\r\n");

@@ -10,7 +10,7 @@
 不依赖框架运行：是
 
 ### 安装
-composer xing.chen/push dev-master
+composer require xing.chen/push dev-master
 
 # 使用示例
 ```php
