@@ -1,7 +1,7 @@
 {
     "name": "xing.chen/push",
     "description": "推送，目前支持友盟，工厂模式，以后增加其他推送时可以方便的切换",
-    "license": "mit",
+    "license": "MIT",
     "authors": [
         {
             "name": "chen xing",
