@@ -30,7 +30,6 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
     protected $appKey;
     protected $appMasterSecret;
     protected $timestamp;
-    private $predefined = [];
     // 测试模式开启
     protected $test = false;
 
