@@ -32,4 +32,8 @@ interface PushInterface
     public function sendOneAndroid(string $device);
     // IOS - 单播
     public function sendOneIOS(string $device);
+    // 获取错误信息
+    public function getError();
+    // 获取访问接口的结果
+    public function getResult();
 }

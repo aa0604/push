@@ -14,6 +14,9 @@ abstract class UmengNotification {
 	// The app master secret
 	protected $appMasterSecret = NULL;
 
+	public $result;
+	public $error;
+
 	/*
 	 * $data is designed to construct the json string for POST request. Note:
 	 * 1)The key/value pairs in comments are optional.  
@@ -68,7 +71,7 @@ abstract class UmengNotification {
 	abstract function setPredefinedKeyValue($key, $value);
 
 	//send the notification to umeng, return response data if SUCCESS , otherwise throw Exception with details.
-	function send() {
+	public function send() {
 		//check the fields to make sure that they are not NULL
     	$this->isComplete();
 
@@ -84,20 +87,20 @@ abstract class UmengNotification {
         curl_setopt($ch, CURLOPT_TIMEOUT, 60);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postBody );
         $result = curl_exec($ch);
+        $this->result .= $result . "\r\n";
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $curlErrNo = curl_errno($ch);
         $curlErr = curl_error($ch);
         curl_close($ch);
-//        print($result . "\r\n");
         if ($httpCode == "0") {
-          	 // Time out
-           	throw new \Exception("Curl error number:" . $curlErrNo . " , Curl error details:" . $curlErr . "\r\n");
+            $this->error .= "Curl error number:" . $curlErrNo . " , Curl error details:" . $curlErr . "\r\n";
+            return false;
         } else if ($httpCode != "200") {
-           	// We did send the notifition out and got a non-200 response
-           	throw new \Exception("Http code:" . $httpCode .  " details:" . $result . "\r\n");
-        } else {
-           	return $result;
+            $this->error .= "Http code:" . $httpCode .  " details:" . $result;
+            return false;
         }
+//        print($this->result);
+        return true;
     }
 	
 }

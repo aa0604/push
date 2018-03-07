@@ -103,4 +103,14 @@ class Yii extends BasePush implements PushInterface
         $this->initDrive();
         return $this->drive->sendGroupIOS();
     }
+
+    public function getError()
+    {
+        return $this->drive->getError();
+    }
+
+    public function getResult()
+    {
+        return $this->drive->getResult();
+    }
 }

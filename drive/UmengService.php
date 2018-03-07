@@ -62,7 +62,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
      */
     public function setSdk($type = 'android')
     {
-        if (!empty($this->sdk)) return $this->sdk;
+//        if (!empty($this->sdk)) return $this->sdk;
         $this->platform = $type;
         $this->sdk = $type == 'android' ? new AndroidNotification() : new IOSNotification();
         $this->sdk->setPredefinedKeyValue("timestamp",        $this->timestamp);
@@ -78,30 +78,35 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
 
     /**
      * 执行发送
+     * @return bool
      */
     protected function send()
     {
-        # 设置必选参数
-        if ($this->platform == 'android') {
-            $this->sdk->setPredefinedKeyValue("ticker",           $this->title);
-            $this->sdk->setPredefinedKeyValue("title",            $this->title);
-            $this->sdk->setPredefinedKeyValue("text",             $this->body);
-            $this->sdk->setPredefinedKeyValue("after_open",       'go_app'); // 后续行为，其他推送没有这个东西，所以不做成为专门动作，统一使用该值
-        } else {
-            $this->sdk->setPredefinedKeyValue("alert", $this->title);
-        }
-
         # 设置扩展参数
         if (!empty($this->extendedData)) {
             # 安卓
             if ($this->platform == 'android') {
+                $this->sdk->data["payload"]["body"]["custom"] = json_encode($this->extendedData);
                 foreach ($this->extendedData as $k => $v) $this->sdk->setExtraField($k, $v);
             } else {
                 # IOS 扩展参数以数组形式全放在extra变量里
                 $this->sdk->setCustomizedField('extra', $this->extendedData);
             }
         }
-        $this->sdk->send();
+
+        # 设置必选参数
+        if ($this->platform == 'android') {
+            $this->sdk->setPredefinedKeyValue("ticker",           $this->title);
+            $this->sdk->setPredefinedKeyValue("title",            $this->title);
+            $this->sdk->setPredefinedKeyValue("text",             $this->body);
+            $this->sdk->setPredefinedKeyValue("after_open",       'go_app'); // 后续行为
+            $this->sdk->send(); // 友盟不能通知消息一起，所以先发送消息，再发送通知
+            $this->sdk->setPredefinedKeyValue("after_open",       'go_custom'); // 后续行为
+            $this->sdk->setPredefinedKeyValue("display_type",     'message');
+        } else {
+            $this->sdk->setPredefinedKeyValue("alert", $this->title);
+        }
+        return $this->sdk->send();
     }
 
     // 发送广播
@@ -177,5 +182,15 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
     public function sendGroupIOS()
     {
 
+    }
+
+    public function getError()
+    {
+        return $this->sdk->error;
+    }
+
+    public function getResult()
+    {
+        return $this->sdk->result;
     }
 }
