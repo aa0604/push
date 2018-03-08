@@ -27,11 +27,11 @@ interface PushInterface
     public function sendGroupIOS();
 
     // 单播
-    public function sendOne(string $device);
+    public function sendOne($device);
     // 安卓 - 单播
-    public function sendOneAndroid(string $device);
+    public function sendOneAndroid($device);
     // IOS - 单播
-    public function sendOneIOS(string $device);
+    public function sendOneIOS($device);
     // 获取错误信息
     public function getError();
     // 获取访问接口的结果

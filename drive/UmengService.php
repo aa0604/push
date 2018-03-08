@@ -134,7 +134,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
      * 单播：所有平台
      * @param string $device
      */
-    public function sendOne(string $device)
+    public function sendOne($device)
     {
         $this->sendOneAndroid($device);
         $this->sendOneIOS($device);
@@ -144,7 +144,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
      * 安卓 - 单播
      * @param string $device 发送设备
      */
-    public function sendOneAndroid(string $device)
+    public function sendOneAndroid($device)
     {
         $this->setSdk('android');
         $this->sdk->data["type"] = "unicast";
@@ -158,7 +158,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
      * IOS - 单播
      * @param string $device 发送设备
      */
-    public function sendOneIOS(string $device)
+    public function sendOneIOS($device)
     {
         $this->setSdk('IOS');
         $this->sdk->data["type"] = "unicast";

@@ -1,11 +1,10 @@
 {
     "name": "xing.chen/push",
-    "description": "推送，目前支持友盟，工厂模式，以后增加其他推送时可以方便的切换",
+    "description": "支持友盟、信鸽推送。工厂模式，使用接口规范",
     "license": "MIT",
     "authors": [
         {
             "name": "chen xing",
-            "email": "877349686@qq.com"
         }
     ],
     "require": {

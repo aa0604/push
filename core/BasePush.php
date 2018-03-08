@@ -26,7 +26,7 @@ class BasePush
      * @param string $title 标题
      * @return $this
      */
-    public function setTitle(string $title)
+    public function setTitle($title)
     {
         $this->title = $title;
         return $this;
@@ -37,7 +37,7 @@ class BasePush
      * @param string $body
      * @return $this
      */
-    public function setBody(string $body)
+    public function setBody($body)
     {
         $this->body = $body;
         return $this;
@@ -48,7 +48,7 @@ class BasePush
      * @param array $data
      * @return $this
      */
-    public function setExtendedData(array $data)
+    public function setExtendedData($data)
     {
         $this->extendedData = $data;
         return $this;

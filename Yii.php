@@ -15,7 +15,7 @@ use xing\push\core\PushInterface;
 
 /**
  * Class Yii
- * @property \xing\push\drive\UmengService $drive
+ * @property \xing\push\drive\UmengService|\xing\push\drive\XingeService $drive
  * @property array $config
  * @property string $driveName
  * @package xing\push
@@ -32,7 +32,7 @@ class Yii extends BasePush implements PushInterface
         $this->drive = PushFactory::getInstance($this->driveName)::init($this->config);
         $this->drive->title = $this->title;
         $this->drive->body = $this->body;
-        $this->drive->extendedData= $this->extendedData;
+        $this->drive->extendedData = $this->extendedData;
     }
 
     // 发送广播
@@ -59,7 +59,7 @@ class Yii extends BasePush implements PushInterface
      * 单播：所有平台
      * @param string $device
      */
-    public function sendOne(string $device)
+    public function sendOne($device)
     {
         $this->initDrive();
         return $this->drive->sendOne($device);
@@ -69,7 +69,7 @@ class Yii extends BasePush implements PushInterface
      * 安卓 - 单播
      * @param string $device 发送设备
      */
-    public function sendOneAndroid(string $device)
+    public function sendOneAndroid($device)
     {
         $this->initDrive();
         return $this->drive->sendOneAndroid($device);
@@ -79,7 +79,7 @@ class Yii extends BasePush implements PushInterface
      * IOS - 单播
      * @param string $device 发送设备
      */
-    public function sendOneIOS(string $device)
+    public function sendOneIOS($device)
     {
         $this->initDrive();
         return $this->drive->sendOneIOS($device);
