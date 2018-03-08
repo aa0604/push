@@ -48,9 +48,10 @@ class XingeService extends \xing\push\core\BasePush implements PushInterface
 
     /**
      * 执行发送
+     * @param array $config 安卓|IOS的应用信息配置
      * @return XingeApp
      */
-    protected function sendInit()
+    protected function sendInit($config)
     {
 
         $acceptTime1 = new TimeInterval(0, 0, 23, 59);
@@ -58,7 +59,7 @@ class XingeService extends \xing\push\core\BasePush implements PushInterface
         $this->mess->setCustom($this->extendedData);
         $this->mess->setExpireTime($this->config['expireTime']);
 
-        return new XingeApp($this->config['accessId'], $this->config['secret_key']);
+        return new XingeApp($config['accessId'], $config['secret_key']);
     }
 
     /**
@@ -100,13 +101,13 @@ class XingeService extends \xing\push\core\BasePush implements PushInterface
     public function sendAllAndroid()
     {
         $this->getAndroidMess();
-        return $this->sendInit()->PushAllDevices(0, $this->mess);
+        return $this->sendInit($this->config['android'])->PushAllDevices(0, $this->mess);
     }
     // IOS - 广播
     public function sendAllIOS()
     {
         $this->getIosMess();
-        return $this->sendInit()->PushAllDevices(0, $this->mess);
+        return $this->sendInit($this->config['IOS'])->PushAllDevices(0, $this->mess);
     }
 
     /**
@@ -116,7 +117,7 @@ class XingeService extends \xing\push\core\BasePush implements PushInterface
     public function sendOne($device)
     {
         $this->sendOneAndroid($device);
-        er($this->sendOneIOS($device));
+        $this->sendOneIOS($device);
     }
 
     /**
@@ -126,7 +127,7 @@ class XingeService extends \xing\push\core\BasePush implements PushInterface
     public function sendOneAndroid($device)
     {
         $this->getAndroidMess();
-        return $this->sendInit()->PushSingleDevice($device, $this->mess);
+        return $this->sendInit($this->config['android'])->PushSingleDevice($device, $this->mess);
     }
 
     /**
@@ -136,7 +137,7 @@ class XingeService extends \xing\push\core\BasePush implements PushInterface
     public function sendOneIOS($device)
     {
         $this->getIosMess();
-        return $this->sendInit()->PushSingleDevice($device, $this->mess);
+        return $this->sendInit($this->config['IOS'])->PushSingleDevice($device, $this->mess);
     }
 
     // 发送组播

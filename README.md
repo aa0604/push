@@ -33,9 +33,15 @@ $configUmeng = [
 ];
 
 $configXinge = [
-   'accessId' => 'accessId',
-   'secret_key' => 'secret_key',
    'expireTime' => 86400,
+    'android' => [
+       'accessId' => 'accessId',
+       'secret_key' => 'secret_key',
+    ],
+    'IOS' => [
+       'accessId' => 'accessId',
+       'secret_key' => 'secret_key',
+    ]
 ];
 
 
