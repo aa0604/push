@@ -99,7 +99,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
             $this->sdk->setPredefinedKeyValue("ticker",           $this->title);
             $this->sdk->setPredefinedKeyValue("title",            $this->title);
             $this->sdk->setPredefinedKeyValue("text",             $this->body);
-            $this->sdk->setPredefinedKeyValue("after_open",       'go_app'); // 后续行为
+            $this->sdk->setPredefinedKeyValue("after_open",       'go_custom'); // 后续行为
             $this->sdk->send(); // 友盟不能通知消息一起，所以先发送消息，再发送通知
             $this->sdk->setPredefinedKeyValue("after_open",       'go_custom'); // 后续行为
             $this->sdk->setPredefinedKeyValue("display_type",     'message');
@@ -134,7 +134,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
      * 单播：所有平台
      * @param string $device
      */
-    public function sendOne($device)
+    public function sendOne(string $device)
     {
         $this->sendOneAndroid($device);
         $this->sendOneIOS($device);
@@ -144,7 +144,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
      * 安卓 - 单播
      * @param string $device 发送设备
      */
-    public function sendOneAndroid($device)
+    public function sendOneAndroid(string $device)
     {
         $this->setSdk('android');
         $this->sdk->data["type"] = "unicast";
@@ -158,7 +158,7 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
      * IOS - 单播
      * @param string $device 发送设备
      */
-    public function sendOneIOS($device)
+    public function sendOneIOS(string $device)
     {
         $this->setSdk('IOS');
         $this->sdk->data["type"] = "unicast";
