@@ -18,7 +18,8 @@ class PushFactory
      */
     private static $drive = [
         'Umeng' => '\xing\push\drive\UmengService',
-        'xinge' => '\xing\push\drive\XingeService',
+        'Xinge' => '\xing\push\drive\XingeService',
+        'GeTui' => '\xing\push\drive\GeTuiService',
     ];
 
     /**
