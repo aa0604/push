@@ -1,6 +1,6 @@
 {
     "name": "xing.chen/push",
-    "description": "支持友盟、信鸽推送。工厂模式，使用接口规范",
+    "description": "支持友盟、信鸽、个推推送。工厂模式，使用接口规范",
     "license": "MIT",
     "authors": [
         {
