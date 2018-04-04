@@ -38,8 +38,7 @@ $push = Yii::$app->push
         
 // -------------------- 独立运行：工厂模式 ---------------------
 
-# 赋值你要使用哪个平台的配置，如友盟，说明文档最下面为各平台的配置参考
-$config = $configUmeng;
+# 赋值你要使用哪个平台的配置，说明文档最下面为各平台的配置参考
 
 // 设置标题和消息、自定义参数
 $push = \xing\push\core\PushFactory::getInstance($driveName)::init($config)
@@ -72,7 +71,7 @@ $push->sendOneIOS('设备码');
 <?php
 //  ***  初始化驱动
 // 友盟配置
-$configUmeng = [
+$config = [
     'android' => [
         'appKey' => 'appKey',
         'appMasterSecret' => 'appMasterSecret'
@@ -83,7 +82,7 @@ $configUmeng = [
     ]
 ];
 // 信使配置
-$configXinge = [
+$config = [
    'expireTime' => 86400,
     'android' => [
        'accessId' => 'accessId',
@@ -96,7 +95,7 @@ $configXinge = [
 ];
 
 // 个推配置
-$confgGeTui = [
+$config = [
   'AppID' => 'AppID',
   'AppKey' => 'AppKey',
   'MasterSecret' => 'AppKey',
@@ -112,15 +111,12 @@ $confgGeTui = [
 
 // 友盟
 $driveName = 'Umeng';
-$configYii = $configUmeng; // 友盟配置
 
 // 信鸽
 $driveName = 'Xingge';
-$configYii = $configXinge; // 信鸽配置
 
 // 个推
 $driveName = 'GeTui';
-$configYii = $configXinge; // 个推配置
 
 // YII的components设置：
 'components'=> [
@@ -128,7 +124,7 @@ $configYii = $configXinge; // 个推配置
             'class' => 'xing\push\Yii',
             'driveName' => $driveName, // 驱动名
             // 配置
-            'config' => $configYii
+            'config' => $config
         ],
 ];
 
