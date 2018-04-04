@@ -169,7 +169,13 @@ class GeTuiService extends \xing\push\core\BasePush implements \xing\push\core\P
 //        $template->set_logoURL("");                    //通知栏logo链接
         $template->set_isRing(true);                   //是否响铃
         $template->set_isVibrate(true);                //是否震动
-        $template->set_isClearable(true);              //通知栏是否可清除
+        $template->set_isClearable(true);              //通知栏是否可清除$template->set_transmissionType(1);//透传消息类型
+
+        if (!empty($this->extendedData)) {
+            $extendData = json_encode($this->extendedData);
+            $template->set_transmissionType(1);//透传消息类型
+            $template->set_transmissionContent($extendData);//透传内容
+        }
 
         return $template;
     }
