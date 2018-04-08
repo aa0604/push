@@ -104,7 +104,8 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
             $this->sdk->setPredefinedKeyValue("after_open",       'go_custom'); // 后续行为
             $this->sdk->setPredefinedKeyValue("display_type",     'message');
         } else {
-            $this->sdk->setPredefinedKeyValue("alert", $this->title);
+            $this->sdk->setPredefinedKeyValue("alert", ['title' => $this->title, 'body' => $this->body]);
+            $this->sdk->setPredefinedKeyValue("production_mode", true);
         }
         return $this->sdk->send();
     }
