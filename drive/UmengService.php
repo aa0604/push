@@ -194,4 +194,9 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
     {
         return $this->sdk->result;
     }
+
+    public function sendOnealias($alias)
+    {
+        // TODO: Implement sendOnealias() method.
+    }
 }

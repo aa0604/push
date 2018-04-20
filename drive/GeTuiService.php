@@ -110,7 +110,6 @@ class GeTuiService extends \xing\push\core\BasePush implements \xing\push\core\P
         $target->set_alias($Alias);
         $this->result = $igt->pushMessageToSingle($message, $target);
     }
-
     /**
      * 单播：所有平台
      * @param string $device
