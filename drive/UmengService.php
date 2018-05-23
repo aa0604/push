@@ -36,7 +36,8 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
 
     protected $sdk;
     protected $platform;
-    private $config = [];
+    protected $config = [];
+    protected $systemMessage = true;
 
     /**
      * 初始化
@@ -99,13 +100,15 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
             $this->sdk->setPredefinedKeyValue("ticker",           $this->title);
             $this->sdk->setPredefinedKeyValue("title",            $this->title);
             $this->sdk->setPredefinedKeyValue("text",             $this->body);
-            $this->sdk->setPredefinedKeyValue("after_open",       'go_custom'); // 后续行为
-            $this->sdk->send(); // 友盟不能通知消息一起，所以先发送消息，再发送通知
+            if ($this->systemMessage) {
+                $this->sdk->setPredefinedKeyValue("after_open",       'go_custom'); // 后续行为
+                $this->sdk->send(); // 友盟不能通知消息一起，所以先发送消息，再发送通知，以实现透传消息和非透传消息
+            }
             $this->sdk->setPredefinedKeyValue("after_open",       'go_custom'); // 后续行为
             $this->sdk->setPredefinedKeyValue("display_type",     'message');
         } else {
             $this->sdk->setPredefinedKeyValue("alert", ['title' => $this->title, 'body' => $this->body]);
-            $this->sdk->setPredefinedKeyValue("production_mode", true);
+            $this->sdk->setPredefinedKeyValue("production_mode", !$this->test);
         }
         return $this->sdk->send();
     }
@@ -183,6 +186,17 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
     public function sendGroupIOS()
     {
 
+    }
+
+    /**
+     * 设置是否发送系统通知（非透传）
+     * @param $bool
+     * @return $this
+     */
+    public function setSystemMessage($bool)
+    {
+        $this->systemMessage = $bool;
+        return $this;
     }
 
     public function getError()
