@@ -15,7 +15,7 @@ use xing\push\core\PushInterface;
 
 /**
  * Class Yii
- * @property \xing\push\drive\UmengService|\xing\push\drive\XingeService|\xing\push\drive\GetuiService $drive
+ * @property \xing\push\drive\UmengService $drive
  * @property array $config
  * @property string $driveName
  * @package xing\push
@@ -32,14 +32,15 @@ class Yii extends BasePush implements PushInterface
         $this->drive = PushFactory::getInstance($this->driveName)::init($this->config);
         $this->drive->title = $this->title;
         $this->drive->body = $this->body;
-        $this->drive->extendedData = $this->extendedData;
+        $this->drive->extendedData= $this->extendedData;
     }
 
     // 发送广播
     public function sendAll()
     {
         $this->initDrive();
-        $this->drive->sendAll();
+        $this->sendAllAndroid();
+        $this->sendAllIOS();
     }
     // 安卓 - 广播
     public function sendAllAndroid()
