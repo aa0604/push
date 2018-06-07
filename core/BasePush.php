@@ -54,4 +54,14 @@ class BasePush
         $this->extendedData = $data;
         return $this;
     }
+    /**
+     * 设置是否发送系统通知（非透传）
+     * @param $bool
+     * @return $this
+     */
+    public function setSystemMessage($bool)
+    {
+        $this->systemMessage = $bool;
+        return $this;
+    }
 }

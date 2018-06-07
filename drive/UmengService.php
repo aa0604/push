@@ -37,7 +37,6 @@ class UmengService extends \xing\push\core\BasePush implements PushInterface
     protected $sdk;
     protected $platform;
     protected $config = [];
-    protected $systemMessage = true;
 
     /**
      * 初始化
