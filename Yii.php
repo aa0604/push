@@ -32,6 +32,7 @@ class Yii extends BasePush implements PushInterface
         $this->drive = PushFactory::getInstance($this->driveName)::init($this->config);
         $this->drive->title = $this->title;
         $this->drive->body = $this->body;
+        $this->drive->systemMessage = $this->systemMessage;
         $this->drive->extendedData= $this->extendedData;
     }
 

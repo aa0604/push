@@ -21,6 +21,7 @@ class BasePush
     protected $title;
     protected $body;
     protected $extendedData = [];
+    public $systemMessage = false;
     /**
      * 设置推送消息的标题
      * @param string $title 标题
