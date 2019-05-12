@@ -182,4 +182,9 @@ class XingeService extends \xing\push\core\BasePush implements PushInterface
         #含义：样式编号0，响铃，震动，不可从通知栏清除，不影响先前通知
         return new Style($builderId, $ring, $vibrate , $clearable, $nId, $lights, $iconType, $styleId);
     }
+
+    public function sendOnealias($alias)
+    {
+        // TODO: Implement sendOnealias() method.
+    }
 }

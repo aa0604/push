@@ -83,7 +83,33 @@ class GeTuiService extends \xing\push\core\BasePush implements \xing\push\core\P
     {
         $this->sendAll();
     }
+    /**
+     * 单播：所有平台
+     * @param string $device
+     */
+    public function sendOnealias($Alias)
+    {
+        $igt = new IGeTui(self::HOST, $this->AppKey, $this->MasterSecret);
 
+        //消息模版：
+        // 4.NotyPopLoadTemplate：通知弹框下载功能模板
+        $template = $this->getTemplate();
+
+
+        //定义"SingleMessage"
+        $message = new IGtSingleMessage();
+
+        $message->set_isOffline(true);//是否离线
+        $message->set_offlineExpireTime(3600*12*1000);//离线时间
+        $message->set_data($template);//设置推送消息类型
+        //$message->set_PushNetWorkType(0);//设置是否根据WIFI推送消息，2为4G/3G/2G，1为wifi推送，0为不限制推送
+        //接收方
+        $target = new IGtTarget();
+        $target->set_appId($this->AppID);
+        //$target->set_clientId($device);
+        $target->set_alias($Alias);
+        $this->result = $igt->pushMessageToSingle($message, $target);
+    }
     /**
      * 单播：所有平台
      * @param string $device

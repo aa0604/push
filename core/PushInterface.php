@@ -28,6 +28,8 @@ interface PushInterface
 
     // 单播
     public function sendOne($device);
+    // 单播 别名
+    public function sendOnealias($alias);
     // 安卓 - 单播
     public function sendOneAndroid($device);
     // IOS - 单播
